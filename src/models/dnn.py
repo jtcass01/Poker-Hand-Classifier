@@ -58,5 +58,5 @@ if __name__ == "__main__":
     print("test_targets", test_targets.shape, test_targets)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
-    model.train(train_features, train_targets, test_features, test_targets)
+    model.train(train_features, train_targets, test_features, test_targets, epochs=20, batch_size=512)
     model.plot_training_and_valdiation_loss()
