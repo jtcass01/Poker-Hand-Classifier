@@ -12,7 +12,7 @@ class DNN(object):
     def __init__(self, feature_size, hidden_layer_dimensions, hidden_layer_activation_function='relu', optimizer='adam'):
         self.model = Sequential()
 
-        for layer_index, layer_dimension in enumerate(layer_dimensions):
+        for layer_index, layer_dimension in enumerate(hidden_layer_dimensions):
             if layer_index == 0:
                 self.model.add(Dense(layer_dimension, input_shape=(feature_size,), activation=hidden_layer_activation_function))
             else:
