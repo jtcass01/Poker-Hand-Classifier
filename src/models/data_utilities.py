@@ -7,7 +7,7 @@ def load_data_and_normalize(file_location, column_headers=['card_1_suit', 'card_
     # Load data
     data = pd.read_csv(file_location, sep=",", header=None, names=column_headers)
     features = data[data.columns[:-1]]
-    targets = data[data.columns[-1:]]
+    targets = pd.DataFrame(to_one_hot(data[data.columns[-1:]], dimension=10), columns=["nothing", "one_pair", "two_pair", "three_of_a_kind", "straight", "flush", "full_house", "four_of_a_kind", "straight_flush", "royal_flush"])
 
     # Normalize features
     normalizer = preprocessing.MinMaxScaler()
