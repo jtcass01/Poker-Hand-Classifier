@@ -30,7 +30,7 @@ class DNN(object):
         training_loss_values = history_dict['loss']
         validation_loss_values = history_dict['val_loss']
 
-        epochs = range(1, len(loss_values) + 1)
+        epochs = range(1, len(training_loss_values) + 1)
 
         plt.plot(epochs, training_loss_values, 'bo', label='Training loss')
         plt.plot(epochs, validation_loss_values, 'b', label='Validation loss')
@@ -40,8 +40,6 @@ class DNN(object):
         plt.legend()
         plt.show()
 
-
-
 if __name__ == "__main__":
     cwd = os.getcwd()
     data_dir = cwd + os.path.sep + ".." + os.path.sep + ".." + os.path.sep + "data" + os.path.sep + "poker"
@@ -50,12 +48,6 @@ if __name__ == "__main__":
 
     train_features, train_targets = load_data(test_data_file_location)
     test_features, test_targets = load_data(test_data_file_location)
-
-    print("train_features", train_features.shape, train_features)
-    print("train_targets", train_targets.shape, train_targets)
-
-    print("test_features", test_features.shape, test_features)
-    print("test_targets", test_targets.shape, test_targets)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
     model.train(train_features, train_targets, test_features, test_targets, epochs=20, batch_size=512)
