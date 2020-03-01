@@ -1,11 +1,47 @@
-import numpy as np
 import os
+
+import numpy as np
+import matplotlib.pyplot as plt
 
 #from keras.models import Sequential
 #from keras.layers import Dense
 #from keras.utils import to_categorical
 
 from data_utilities import load_data_and_normalize, load_data
+
+class DNN(object):
+    def __init__(self, feature_size, hidden_layer_dimensions, hidden_layer_activation_function='relu', optimizer='adam'):
+        self.model = Sequential()
+
+        for layer_index, layer_dimension in enumerate(layer_dimensions):
+            if layer_index == 0:
+                self.model.add(Dense(layer_dimension, input_shape=(feature_size,), activation=hidden_layer_activation_function))
+            else:
+                self.model.add(Dense(layer_dimension, activation=hidden_layer_activation_function))
+        self.model.add(Dense(10, activation='softmax'))
+        self.model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+
+        self.history = None
+
+    def train(self, train_features, train_targets, test_features, test_targets, epochs, batch_size):
+        self.history = self.model.fit(train_features, train_targets, epochs=epochs, batch_size=batch_size, validation_data=(test_features, test_targets))
+
+    def plot_training_and_valdiation_loss(self):
+        history_dict = self.history.history
+        training_loss_values = history_dict['loss']
+        validation_loss_values = history_dict['val_loss']
+
+        epochs = range(1, len(loss_values) + 1)
+
+        plt.plot(epochs, training_loss_values, 'bo', label='Training loss')
+        plt.plot(epochs, validation_loss_values, 'b', label='Validation loss')
+        plt.title('Training and validation loss')
+        plt.xlabel('Epochs')
+        plt.ylabel('Loss')
+        plt.legend()
+        plt.show()
+
+
 
 if __name__ == "__main__":
     cwd = os.getcwd()
@@ -19,27 +55,9 @@ if __name__ == "__main__":
     print("train_features", train_features.shape, train_features)
     print("train_targets", train_targets.shape, train_targets)
 
-#    encoded_targets = to_categorical(train_targets)
-#    print("encoded_targets", encoded_targets.shape, encoded_targets)
-
     print("test_features", test_features.shape, test_features)
-
     print("test_targets", test_targets.shape, test_targets)
 
-    """
-    model = Sequential()
-
-    # Input Layer
-    model.add(Dense(, input_shape(train_features.shape[1],), activation='tanh'))
-
-    # Hidden layer - Dense 52
-    model.add(Dense(52, activation='tanh'))
-
-    # Hidden layer - Dense 13
-    model.add(Dense(13, activation='tanh'))
-
-    # Output layer
-    model.add(Dense(10, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    model.fit(train_features, train_)
-    """
+    model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
+    model.train(train_features, train_targets, test_features, test_targets)
+    model.plot_training_and_valdiation_loss()
