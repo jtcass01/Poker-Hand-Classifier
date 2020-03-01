@@ -3,9 +3,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-#from keras.models import Sequential
-#from keras.layers import Dense
-#from keras.utils import to_categorical
+from keras.models import Sequential
+from keras.layers import Dense
 
 from data_utilities import load_data_and_normalize, load_data
 
