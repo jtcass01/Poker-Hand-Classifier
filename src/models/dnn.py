@@ -25,7 +25,7 @@ class DNN(object):
     def train(self, train_features, train_targets, test_features, test_targets, epochs, batch_size):
         self.history = self.model.fit(train_features, train_targets, epochs=epochs, batch_size=batch_size, validation_data=(test_features, test_targets))
 
-    def plot_training_and_valdiation_loss(self):
+    def plot_training_and_valdiation_loss(self, hidden_layer_dimensions):
         history_dict = self.history.history
         training_loss_values = history_dict['loss']
         validation_loss_values = history_dict['val_loss']
@@ -34,7 +34,7 @@ class DNN(object):
 
         plt.plot(epochs, training_loss_values, 'bo', label='Training loss')
         plt.plot(epochs, validation_loss_values, 'b', label='Validation loss')
-        plt.title('Training and validation loss')
+        plt.title('Training and validation loss for hidden_layer_dimensions=' + str(hidden_layer_dimensions))
         plt.xlabel('Epochs')
         plt.ylabel('Loss')
         plt.legend()
@@ -49,6 +49,14 @@ if __name__ == "__main__":
     train_features, train_targets = load_data_and_normalize(train_data_file_location)
     test_features, test_targets = load_data_and_normalize(test_data_file_location)
 
-    model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 12, 4))
-    model.train(train_features, train_targets, test_features, test_targets, epochs=50, batch_size=1028)
+    model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
+    model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
+    model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(52, 13, 4))
+
+    model = DNN(train_features.shape[1], hidden_layer_dimensions=(15, 10))
+    model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
+    model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(15, 10))
+
+    model = DNN(train_features.shape[1], hidden_layer_dimensions=(25, 12, 6))
+    model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
     model.plot_training_and_valdiation_loss()
