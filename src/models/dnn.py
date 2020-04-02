@@ -46,8 +46,8 @@ if __name__ == "__main__":
     test_data_file_location = data_dir + os.path.sep + "poker-hand-testing.data"
     train_data_file_location = data_dir + os.path.sep + "poker-hand-training-true.data"
 
-    train_features, train_targets = load_data_and_normalize(train_data_file_location)
-    test_features, test_targets = load_data_and_normalize(test_data_file_location)
+    train_features, train_targets = load_data_and_normalize(test_data_file_location)
+    test_features, test_targets = load_data_and_normalize(train_data_file_location)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
     model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
@@ -59,4 +59,4 @@ if __name__ == "__main__":
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(25, 12, 6))
     model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
-    model.plot_training_and_valdiation_loss()
+    model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(25, 12, 6))
