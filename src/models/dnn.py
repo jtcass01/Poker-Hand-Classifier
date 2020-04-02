@@ -50,13 +50,13 @@ if __name__ == "__main__":
     test_features, test_targets = load_data(train_data_file_location)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
-    model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
+    model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(52, 13, 4))
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(15, 10))
-    model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
+    model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(15, 10))
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(25, 12, 6))
-    model.train(train_features, train_targets, test_features, test_targets, epochs=30, batch_size=512)
+    model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(25, 12, 6))
