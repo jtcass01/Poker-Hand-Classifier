@@ -29,3 +29,6 @@ def to_one_hot(labels, dimension):
     for label_index, label in enumerate(labels.to_numpy()):
         results[label_index, label] = 1.
     return results
+
+def from_one_hot(labels, dimension):
+    pass
