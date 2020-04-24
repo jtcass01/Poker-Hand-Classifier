@@ -1,5 +1,4 @@
 import os
-import matplotlib
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,7 +7,11 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.utils.vis_utils import plot_model
 
+from sklearn.metrics import confusion_matrix
+
 from data_utilities import load_data_and_normalize, load_data
+
+
 
 plot_font = {
     'family' : 'normal',
@@ -50,6 +53,34 @@ class DNN(object):
         plt.legend()
         plt.show()
 
+def plot_confusion_matrix(y_test, y_pred, classes=['0','1', '2', '3', '4', '5', '6', '7', '8', '9'], normalize=False, title='Confusion matrix', cmap=plt.cm.Blues):
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+
+    if normalize:
+        cnf_matrix = cnf_matrix.astype('float') / cnf_matrix.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print("Confusion matrix without normalization")
+
+    plt.imshow(cnf_matrix, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cnf_matrix.max() / 2.
+    for row_index, column_index in itertools.product(range(cnf_matrix.shape[0]), range(cnf_matrix.shape[1])):
+        plt.text(column_index, row_index, format(cnf_matrix[row_index, column_index], fmt),
+                 horizontalalignment='center',
+                 color='white' if cnf_matrix[row_index, column_index] > thresh else 'black')
+
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.tight_layout()
+    plt.show()
+
 if __name__ == "__main__":
     cwd = os.getcwd()
     data_dir = cwd + os.path.sep + ".." + os.path.sep + ".." + os.path.sep + "data" + os.path.sep + "poker"
@@ -62,11 +93,17 @@ if __name__ == "__main__":
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
     model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(52, 13, 4))
+    test_pred = model.model.predict(X_test)
+    plot_confusion_matrix(test_targets, test_pred)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(15, 10))
     model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(15, 10))
+    test_pred = model.model.predict(X_test)
+    plot_confusion_matrix(test_targets, test_pred)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(25, 12, 6))
     model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(25, 12, 6))
+    test_pred = model.model.predict(X_test)
+    plot_confusion_matrix(test_targets, test_pred)

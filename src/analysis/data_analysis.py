@@ -1,7 +1,16 @@
 import os
+import matplotlib
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
+
+plot_font = {
+    'family' : 'normal',
+    'weight' : 'bold',
+    'size' : 22
+}
+matplotlib.rc('font', **plot_font)
+
 
 def load_data_and_normalize(file_location, title="", column_headers=['card_1_suit', 'card_1_value', 'card_2_suit', 'card_2_value', 'card_3_suit', 'card_3_value', 'card_4_suit', 'card_4_value', 'card_5_suit', 'card_5_value', 'hand class']):
     # Load data
@@ -21,7 +30,7 @@ def load_data_and_normalize(file_location, title="", column_headers=['card_1_sui
 
 if __name__ == "__main__":
     cwd = os.getcwd()
-    data_dir = cwd + os.path.sep + ".." + os.path.sep + "data" + os.path.sep + "poker"
+    data_dir = cwd + os.path.sep + ".." + os.path.sep + ".." + os.path.sep + "data" + os.path.sep + "poker"
     test_data_file_location = data_dir + os.path.sep + "poker-hand-testing.data"
     train_data_file_location = data_dir + os.path.sep + "poker-hand-training-true.data"
 
