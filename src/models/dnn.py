@@ -5,8 +5,16 @@ import matplotlib.pyplot as plt
 
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.utils.vis_utils import plot_model
 
 from data_utilities import load_data_and_normalize, load_data
+
+plot_font = {
+    'family' : 'normal',
+    'weight' : 'bold',
+    'size' : 22
+}
+matplotlib.rc('font', **plot_font)
 
 class DNN(object):
     def __init__(self, feature_size, hidden_layer_dimensions, hidden_layer_activation_function='relu', optimizer='adam'):
@@ -18,6 +26,7 @@ class DNN(object):
             else:
                 self.model.add(Dense(layer_dimension, activation=hidden_layer_activation_function))
         self.model.add(Dense(10, activation='softmax'))
+        plot_model(self.model, to_file="model_plot.png", show_shapes=True, show_layer_names=True)
         self.model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
         self.history = None
