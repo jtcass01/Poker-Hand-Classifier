@@ -94,17 +94,11 @@ if __name__ == "__main__":
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(52, 13, 4))
     model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(52, 13, 4))
-    test_pred = model.model.predict(test_features)
-    plot_confusion_matrix(test_targets, test_pred)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(15, 10))
     model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(15, 10))
-    test_pred = model.model.predict(test_features)
-    plot_confusion_matrix(test_targets, test_pred)
 
     model = DNN(train_features.shape[1], hidden_layer_dimensions=(25, 12, 6))
     model.train(train_features, train_targets, test_features, test_targets, epochs=26, batch_size=512)
     model.plot_training_and_valdiation_loss(hidden_layer_dimensions=(25, 12, 6))
-    test_pred = model.model.predict(test_features)
-    plot_confusion_matrix(test_targets, test_pred)
